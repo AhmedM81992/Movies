@@ -14,7 +14,8 @@ class MyThemeData {
   static const Color greyColor = Color(0xFFC8C9CB);
   static const Color redColor = Color(0xFFaf000f);
   static const Color anotherBlack = Color(0xFF42505C);
-  static const Color SelectedColor = Color(0xFFFFBB3B);
+  static const Color selectedColor = Color(0xFFFFBB3B);
+  static const Color searchBox = Color(0xFF514F4F);
 
   static ThemeData lightTheme = ThemeData(
     textTheme: TextTheme(

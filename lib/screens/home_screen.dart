@@ -3,15 +3,24 @@ import 'package:movies_app/providers/my_provider.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const String routeName = "Home";
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int index = 0;
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<MyProvider>(context);
     return Scaffold(
       backgroundColor: MyThemeData.primaryColor,
+      body: Container(
+        child: provider.tabs[provider.index],
+      ),
       bottomNavigationBar: Container(
         height: 90,
         width: double.infinity,
@@ -36,14 +45,16 @@ class HomeScreen extends StatelessWidget {
             type: BottomNavigationBarType.fixed,
             backgroundColor: MyThemeData.primaryColor,
             onTap: (value) {
-              provider.changeIndex(value);
+              setState(() {
+                provider.changeIndex(value);
+              });
             },
             currentIndex: provider.index,
-            selectedItemColor: MyThemeData.SelectedColor,
+            selectedItemColor: MyThemeData.selectedColor,
             showSelectedLabels: true,
             showUnselectedLabels: true,
             unselectedItemColor: MyThemeData.whiteColor,
-            selectedIconTheme: IconThemeData(color: MyThemeData.SelectedColor),
+            selectedIconTheme: IconThemeData(color: MyThemeData.selectedColor),
             items: [
               BottomNavigationBarItem(icon: Icon(Icons.house), label: "HOME"),
               BottomNavigationBarItem(
