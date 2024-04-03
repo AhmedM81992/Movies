@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/networks/remote/api_manager.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
 
 class HomeTab extends StatelessWidget {
   HomeTab({super.key});
-  String baseUrl = "https://image.tmdb.org/t/p/w500";
+  //String baseUrl = "https://image.tmdb.org/t/p/w500";
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,9 @@ class HomeTab extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return Image.network(
-                      baseUrl + (moviesList[index].backdropPath ?? ""));
+                    Constants.IMAGE_BASE_URL +
+                        (moviesList[index].backdropPath ?? ""),
+                  );
                 },
                 itemCount: moviesList.length,
               );
