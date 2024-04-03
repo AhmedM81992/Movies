@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/networks/remote/api_manager.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
+import 'package:movies_app/widgets/containers/bookmark_container.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   HomeTab({super.key});
-  //String baseUrl = "https://image.tmdb.org/t/p/w500";
 
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  //String baseUrl = "https://image.tmdb.org/t/p/w500";
+  bool isClicked = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -75,10 +82,19 @@ class HomeTab extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return Image.network(
-                            Constants.IMAGE_BASE_URL +
-                                (moviesList[index].backdropPath ?? ""),
-                          );
+                          return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                child: Stack(
+                                  children: [
+                                    Image.network(
+                                      Constants.IMAGE_BASE_URL +
+                                          (moviesList[index].posterPath ?? ""),
+                                    ),
+                                    MyBookmarkWidget(),
+                                  ],
+                                ),
+                              ));
                         },
                         itemCount: moviesList.length,
                       ),
@@ -120,9 +136,19 @@ class HomeTab extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return Image.network(
-                            Constants.IMAGE_BASE_URL +
-                                (moviesList[index].backdropPath ?? ""),
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: Stack(
+                                children: [
+                                  Image.network(
+                                    Constants.IMAGE_BASE_URL +
+                                        (moviesList[index].posterPath ?? ""),
+                                  ),
+                                  MyBookmarkWidget(),
+                                ],
+                              ),
+                            ),
                           );
                         },
                         itemCount: moviesList.length,
