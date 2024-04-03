@@ -60,11 +60,29 @@ class HomeTab extends StatelessWidget {
                     color: Colors.white),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: 0, // Set the itemCount to 0 for an empty list
-                  itemBuilder: (BuildContext context, int index) {
-                    // This function won't be called since the itemCount is 0
-                    return Container(); // Return an empty container
+                child: FutureBuilder(
+                  future: ApiManager.getUpComing(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.hasError) {
+                      return Center(child: Text("Something Went Wrong!"));
+                    }
+                    var moviesList = snapshot.data?.results ?? [];
+                    return Expanded(
+                      child: ListView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Image.network(
+                            Constants.IMAGE_BASE_URL +
+                                (moviesList[index].backdropPath ?? ""),
+                          );
+                        },
+                        itemCount: moviesList.length,
+                      ),
+                    );
                   },
                 ),
               ),
@@ -87,11 +105,29 @@ class HomeTab extends StatelessWidget {
                     color: Colors.white),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: 10, // Set the itemCount to 0 for an empty list
-                  itemBuilder: (BuildContext context, int index) {
-                    // This function won't be called since the itemCount is 0
-                    return Container(); // Return an empty container
+                child: FutureBuilder(
+                  future: ApiManager.getTopRated(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.hasError) {
+                      return Center(child: Text("Something Went Wrong!"));
+                    }
+                    var moviesList = snapshot.data?.results ?? [];
+                    return Expanded(
+                      child: ListView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Image.network(
+                            Constants.IMAGE_BASE_URL +
+                                (moviesList[index].backdropPath ?? ""),
+                          );
+                        },
+                        itemCount: moviesList.length,
+                      ),
+                    );
                   },
                 ),
               ),
