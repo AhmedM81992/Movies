@@ -3,6 +3,7 @@ import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/networks/remote/api_manager.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
 import 'package:movies_app/widgets/containers/bookmark_container.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'details_page.dart';
 
@@ -61,10 +62,18 @@ class _UpComingContainerState extends State<UpComingContainer> {
                                 },
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    Constants.IMAGE_BASE_URL +
+                                  child: CachedNetworkImage(
+                                    imageUrl: Constants.IMAGE_BASE_URL +
                                         (moviesList[index].posterPath ?? ""),
                                     fit: BoxFit.cover,
+                                    progressIndicatorBuilder: (context, url,
+                                            downloadProgress) =>
+                                        Center(
+                                            child: CircularProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress)),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                                 ),
                               ),

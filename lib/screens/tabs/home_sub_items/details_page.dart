@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -77,12 +78,17 @@ class _DetailsPageState extends State<DetailsPage> {
                 children: [
                   Stack(
                     children: [
-                      Image.network(
-                        Constants.IMAGE_BASE_URL +
+                      CachedNetworkImage(
+                        imageUrl: Constants.IMAGE_BASE_URL +
                             (movieDetail?.backdropPath ?? ""),
                         height: MediaQuery.of(context).size.height * 0.235,
                         width: MediaQuery.of(context).size.width * 1,
                         fit: BoxFit.fitWidth,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) => Center(
+                                child: CircularProgressIndicator(
+                                    value: downloadProgress.progress)),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 55),
@@ -135,10 +141,16 @@ class _DetailsPageState extends State<DetailsPage> {
                           width: MediaQuery.of(context).size.width * 0.4,
                           child: Stack(
                             children: [
-                              Image.network(
-                                Constants.IMAGE_BASE_URL +
+                              CachedNetworkImage(
+                                imageUrl: Constants.IMAGE_BASE_URL +
                                     (movieDetail?.posterPath ?? ""),
                                 fit: BoxFit.cover,
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) => Center(
+                                        child: CircularProgressIndicator(
+                                            value: downloadProgress.progress)),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
                               MyBookmarkWidget()
                             ],

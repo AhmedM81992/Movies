@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/screens/tabs/home_sub_items/details_page.dart';
 import 'package:movies_app/shared/components/constants.dart';
@@ -67,11 +68,20 @@ class _TopRatedContainerState extends State<TopRatedContainer> {
                                       borderRadius: BorderRadius.only(
                                           topRight: Radius.circular(10),
                                           topLeft: Radius.circular(10)),
-                                      child: Image.network(
-                                        Constants.IMAGE_BASE_URL +
+                                      child: CachedNetworkImage(
+                                        imageUrl: Constants.IMAGE_BASE_URL +
                                             (moviesList[index].posterPath ??
                                                 ""),
                                         fit: BoxFit.cover,
+                                        progressIndicatorBuilder: (context, url,
+                                                downloadProgress) =>
+                                            Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        value: downloadProgress
+                                                            .progress)),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                       ),
                                     ),
                                   ),

@@ -4,6 +4,7 @@ import 'package:movies_app/screens/tabs/home_sub_items/details_page.dart';
 import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/networks/remote/api_manager.dart';
 import 'package:movies_app/widgets/containers/bookmark_container.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class PopularContainer extends StatefulWidget {
   const PopularContainer({super.key});
@@ -38,9 +39,15 @@ class _PopularContainerState extends State<PopularContainer> {
                     height: MediaQuery.of(context).size.height,
                     child: Stack(
                       children: [
-                        Image.network(
-                          Constants.IMAGE_BASE_URL +
+                        CachedNetworkImage(
+                          imageUrl: Constants.IMAGE_BASE_URL +
                               (moviesList[index].backdropPath ?? ""),
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) => Center(
+                                  child: CircularProgressIndicator(
+                                      value: downloadProgress.progress)),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         ),
                         Center(
                           child: IconButton(
@@ -71,10 +78,18 @@ class _PopularContainerState extends State<PopularContainer> {
                                   },
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(
-                                      Constants.IMAGE_BASE_URL +
+                                    child: CachedNetworkImage(
+                                      imageUrl: Constants.IMAGE_BASE_URL +
                                           (moviesList[index].posterPath ?? ""),
                                       fit: BoxFit.cover,
+                                      progressIndicatorBuilder: (context, url,
+                                              downloadProgress) =>
+                                          Center(
+                                              child: CircularProgressIndicator(
+                                                  value: downloadProgress
+                                                      .progress)),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
                                     ),
                                   ),
                                 ),

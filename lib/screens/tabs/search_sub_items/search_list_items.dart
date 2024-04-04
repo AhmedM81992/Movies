@@ -1,10 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/models/SearchModel.dart';
 import 'package:movies_app/screens/tabs/home_sub_items/details_page.dart';
 import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
-
-import 'package:movies_app/widgets/containers/bookmark_container.dart';
 
 class SearchListItems extends StatelessWidget {
   final Results result;
@@ -30,9 +29,15 @@ class SearchListItems extends StatelessWidget {
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.485,
                     height: MediaQuery.of(context).size.height * 0.118,
-                    child: Image.network(
-                      Constants.IMAGE_BASE_URL + (result.backdropPath ?? ""),
+                    child: CachedNetworkImage(
+                      imageUrl: Constants.IMAGE_BASE_URL +
+                          (result.backdropPath ?? ""),
                       fit: BoxFit.cover,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Center(
+                              child: CircularProgressIndicator(
+                                  value: downloadProgress.progress)),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),
                 ),
