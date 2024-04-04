@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:movies_app/screens/tabs/home_sub_items/sub_items/detailed_container_sub_items/detailed_container_list.dart';
+import 'package:movies_app/screens/tabs/home_sub_items/sub_items/detailed_container_sub_items/details_videoplayer.dart';
 import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/networks/remote/api_manager.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
@@ -95,7 +96,12 @@ class _DetailsPageState extends State<DetailsPage> {
                         child: Center(
                           child: IconButton(
                             onPressed: () {
-                              // Navigate to a different page or perform a different action
+                              Navigator.pushNamed(
+                                context,
+                                DetailsVideoPlayer.routeName,
+                                arguments:
+                                    movieId, // Pass the movieId to the DetailsVideoPlayer page
+                              );
                             },
                             icon: Icon(
                               CupertinoIcons.play_circle_fill,
