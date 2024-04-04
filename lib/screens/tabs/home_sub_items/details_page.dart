@@ -79,6 +79,9 @@ class _DetailsPageState extends State<DetailsPage> {
                       Image.network(
                         Constants.IMAGE_BASE_URL +
                             (movieDetail?.backdropPath ?? ""),
+                        height: MediaQuery.of(context).size.height * 0.235,
+                        width: MediaQuery.of(context).size.width * 1,
+                        fit: BoxFit.fitWidth,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 55),

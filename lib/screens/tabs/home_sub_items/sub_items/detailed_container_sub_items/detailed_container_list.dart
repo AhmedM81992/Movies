@@ -30,9 +30,9 @@ class _DetailedContainerListState extends State<DetailedContainerList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Recommended', // Title
+            'More Like This', // Title
             style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 15, fontWeight: FontWeight.w400, color: Colors.white),
           ),
           FutureBuilder(
             future: ApiManager.getSimilar(movieId!),
