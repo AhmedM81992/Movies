@@ -22,10 +22,15 @@ class _TopRatedContainerState extends State<TopRatedContainer> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Recommended', // Title
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              'Recommended', // Title
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
           ),
           FutureBuilder(
             future: ApiManager.getTopRated(),
@@ -58,62 +63,78 @@ class _TopRatedContainerState extends State<TopRatedContainer> {
                                           context, DetailsPage.routeName,
                                           arguments: moviesList[index].id);
                                     },
-                                    child: Image.network(
-                                      Constants.IMAGE_BASE_URL +
-                                          (moviesList[index].posterPath ?? ""),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      child: Image.network(
+                                        Constants.IMAGE_BASE_URL +
+                                            (moviesList[index].posterPath ??
+                                                ""),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                   MyBookmarkWidget(),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 138),
-                                    child: Container(
-                                      color: Color(0xFF343534),
-                                      width: 100,
-                                      height: 300,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.star,
-                                                size: 15,
-                                                color: Color(0xFFFFBB3B),
-                                              ),
-                                              Text(
-                                                moviesList[index]
-                                                        .voteAverage
-                                                        ?.toStringAsFixed(1) ??
-                                                    "",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 10,
-                                                    color: Colors.white),
-                                              ),
-                                            ],
-                                          ),
-                                          Text(
-                                            maxLines: 1,
-                                            moviesList[index].title ?? "",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 10,
-                                                color: Colors.white),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                moviesList[index].releaseDate ??
-                                                    "",
-                                                style: TextStyle(
-                                                    fontSize: 8,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.white),
-                                              )
-                                            ],
-                                          )
-                                        ],
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(10),
+                                          bottomLeft: Radius.circular(10)),
+                                      child: Container(
+                                        color: Color(0xFF343534),
+                                        width: 100,
+                                        height: 300,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.star,
+                                                  size: 15,
+                                                  color: Color(0xFFFFBB3B),
+                                                ),
+                                                Text(
+                                                  moviesList[index]
+                                                          .voteAverage
+                                                          ?.toStringAsFixed(
+                                                              1) ??
+                                                      "",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 10,
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              maxLines: 1,
+                                              moviesList[index].title ?? "",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 10,
+                                                  color: Colors.white),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  moviesList[index]
+                                                          .releaseDate ??
+                                                      "",
+                                                  style: TextStyle(
+                                                      fontSize: 8,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Colors.white),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   )

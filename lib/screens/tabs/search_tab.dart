@@ -1,6 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/screens/tabs/search_sub_items/search_list_items.dart';
+import 'package:movies_app/shared/components/constants.dart';
+import 'package:movies_app/shared/networks/remote/api_manager.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
+import 'package:movies_app/widgets/containers/bookmark_container.dart';
+
+import '../../models/SearchModel.dart';
+import 'home_sub_items/details_page.dart';
 
 class SearchTab extends StatefulWidget {
   SearchTab({Key? key}) : super(key: key);
@@ -10,17 +17,19 @@ class SearchTab extends StatefulWidget {
 }
 
 class _SearchTabState extends State<SearchTab> {
-  bool isSearching = true;
-
+  List<Results>? searchResults = [];
   final searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyThemeData.primaryColor,
-      body: isSearching
-          ? Padding(
-              padding: const EdgeInsets.only(right: 8.0, left: 8.0, top: 60),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 32),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
@@ -37,33 +46,71 @@ class _SearchTabState extends State<SearchTab> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide(
-                        color: MyThemeData
-                            .whiteColor, // Change this color to your liking
+                        color: MyThemeData.whiteColor,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide(
-                        color: MyThemeData
-                            .whiteColor, // Change this color to your liking
+                        color: MyThemeData.whiteColor,
                       ),
                     ),
                   ),
-                  onChanged: (value) async {
-                    // Your search logic here
-                    setState(() {});
+                  onChanged: (text) {
+                    if (text.isNotEmpty) {
+                      searchMovies(text);
+                    } else {
+                      setState(() {
+                        searchResults!.clear();
+                      });
+                    }
                   },
                 ),
               ),
-            )
-          : Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/images/novideo.png"),
-                ],
-              ),
             ),
+            Expanded(
+              child: searchResults != null
+                  ? searchResults!.isEmpty
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset("assets/images/novideo.png"),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: searchResults!.length,
+                          itemBuilder: (context, index) {
+                            return SearchListItems(
+                                result: searchResults![index]);
+                          },
+                        )
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    ),
+            ),
+          ],
+        ),
+      ),
     );
+  }
+
+  Future<void> searchMovies(String query) async {
+    if (query.isNotEmpty) {
+      try {
+        // Calls the API to get search results
+        SearchModel? searchModel = await ApiManager.getSearch(query);
+        if (searchModel != null) {
+          setState(() {
+            searchResults = searchModel.results;
+          });
+          print("Search Results: ${searchResults?.length}");
+          print("Query: $query");
+        }
+      } catch (e) {
+        print("Error searching movies: $e");
+      }
+    }
   }
 }

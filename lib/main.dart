@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/providers/my_provider.dart';
 import 'package:movies_app/screens/home_screen.dart';
 import 'package:movies_app/screens/tabs/home_sub_items/details_page.dart';
-import 'package:movies_app/shared/styles/my_theme_data.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';

@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:movies_app/models/DetailsModel.dart';
 import 'package:movies_app/models/PopularModel.dart';
+import 'package:movies_app/models/SearchModel.dart';
 import 'package:movies_app/models/SimilarToModel.dart';
 import 'package:movies_app/models/TopRatedModel.dart';
 import 'package:movies_app/models/UpComingModel.dart';
@@ -70,11 +71,27 @@ class ApiManager {
 
   static Future<SimilarToModel?> getSimilar(String id) async {
     try {
-      Uri url = Uri.https(Constants.BASE_URL, EndPoints.Details + id + EndPoints.Similar);
+      Uri url = Uri.https(
+          Constants.BASE_URL, EndPoints.Details + id + EndPoints.Similar);
       http.Response response = await http
           .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
       Map<String, dynamic> json = jsonDecode(response.body);
       return SimilarToModel.fromJson(json);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  static Future<SearchModel?> getSearch(String search) async {
+    try {
+      Uri url =
+          Uri.https(Constants.BASE_URL, EndPoints.Search, {"query": search});
+
+      http.Response response = await http
+          .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
+      Map<String, dynamic> json = jsonDecode(response.body);
+      print(url.toString());
+      return SearchModel.fromJson(json);
     } catch (e) {
       print(e.toString());
     }

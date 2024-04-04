@@ -23,10 +23,15 @@ class _UpComingContainerState extends State<UpComingContainer> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'New Releases', // Title
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              'New Releases', // Title
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
           ),
           Expanded(
             child: FutureBuilder(
@@ -54,9 +59,13 @@ class _UpComingContainerState extends State<UpComingContainer> {
                                       context, DetailsPage.routeName,
                                       arguments: moviesList[index].id);
                                 },
-                                child: Image.network(
-                                  Constants.IMAGE_BASE_URL +
-                                      (moviesList[index].posterPath ?? ""),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    Constants.IMAGE_BASE_URL +
+                                        (moviesList[index].posterPath ?? ""),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                               MyBookmarkWidget(),

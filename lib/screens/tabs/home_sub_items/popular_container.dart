@@ -69,9 +69,13 @@ class _PopularContainerState extends State<PopularContainer> {
                                         context, DetailsPage.routeName,
                                         arguments: moviesList[index].id);
                                   },
-                                  child: Image.network(
-                                    Constants.IMAGE_BASE_URL +
-                                        (moviesList[index].posterPath ?? ""),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(
+                                      Constants.IMAGE_BASE_URL +
+                                          (moviesList[index].posterPath ?? ""),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                                 MyBookmarkWidget(),

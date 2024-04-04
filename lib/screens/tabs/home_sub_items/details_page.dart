@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:movies_app/screens/tabs/home_sub_items/sub_items/detailed_container_sub_items/detailed_container_list.dart';
 import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/networks/remote/api_manager.dart';
@@ -128,16 +129,20 @@ class _DetailsPageState extends State<DetailsPage> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.005),
                   Stack(
                     children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Stack(
-                          children: [
-                            Image.network(
-                              Constants.IMAGE_BASE_URL +
-                                  (movieDetail?.posterPath ?? ""),
-                            ),
-                            MyBookmarkWidget()
-                          ],
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Stack(
+                            children: [
+                              Image.network(
+                                Constants.IMAGE_BASE_URL +
+                                    (movieDetail?.posterPath ?? ""),
+                                fit: BoxFit.cover,
+                              ),
+                              MyBookmarkWidget()
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
