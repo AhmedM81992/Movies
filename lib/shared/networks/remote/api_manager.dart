@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:movies_app/models/DetailsModel.dart';
 import 'package:movies_app/models/PopularModel.dart';
+import 'package:movies_app/models/SimilarToModel.dart';
 import 'package:movies_app/models/TopRatedModel.dart';
 import 'package:movies_app/models/UpComingModel.dart';
 import 'package:movies_app/shared/components/constants.dart';
@@ -29,7 +31,7 @@ class ApiManager {
   static Future<UpComingModel?> getUpComing() async {
     try {
       Uri url = Uri.https(Constants.BASE_URL, EndPoints.UpComing,
-          {"apiKey": dotenv.env['HTTP_API_KEY_BROWSER']});
+          {"apiKey": Constants.API_KEY});
       http.Response response = await http
           .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
       http.get(url);
@@ -43,7 +45,7 @@ class ApiManager {
   static Future<TopRatedModel?> getTopRated() async {
     try {
       Uri url = Uri.https(Constants.BASE_URL, EndPoints.TopRated,
-          {"apiKey": dotenv.env['HTTP_API_KEY_BROWSER']});
+          {"apiKey": Constants.API_KEY});
       http.Response response = await http
           .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
       http.get(url);
@@ -54,15 +56,33 @@ class ApiManager {
     }
   }
 
-  getDetails() {
-    Uri url = Uri.https(Constants.BASE_URL, "/3/movie/top_rated",
-        {"apiKey": dotenv.env['HTTP_API_KEY_BROWSER']});
-    http.get(url);
+  static Future<DetailsModel?> getDetails(String id) async {
+    try {
+      Uri url = Uri.https(Constants.BASE_URL, EndPoints.Details + id);
+      http.Response response = await http
+          .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
+      Map<String, dynamic> json = jsonDecode(response.body);
+      return DetailsModel.fromJson(json);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  static Future<SimilarToModel?> getSimilar(String id) async {
+    try {
+      Uri url = Uri.https(Constants.BASE_URL, EndPoints.Details + id + EndPoints.Similar);
+      http.Response response = await http
+          .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
+      Map<String, dynamic> json = jsonDecode(response.body);
+      return SimilarToModel.fromJson(json);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   getMoviesList() {
     Uri url = Uri.https(Constants.BASE_URL, "/3/genre/movie/list",
-        {"apiKey": dotenv.env['HTTP_API_KEY_BROWSER']});
+        {"apiKey": Constants.API_KEY});
     http.get(url);
   }
 }

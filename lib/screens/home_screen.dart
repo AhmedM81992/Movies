@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: provider.tabs[provider.index],
       ),
       bottomNavigationBar: Container(
-        height: 90,
+        height: MediaQuery.of(context).size.height * 0.071,
         width: double.infinity,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(

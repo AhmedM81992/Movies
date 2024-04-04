@@ -9,29 +9,29 @@ class MyThemeData {
   static const Color blackColor = Color(0xFF060E1E);
   static const Color whiteColor = Color(0xFFFFFFFF);
   static const Color greenColor = Color(0xFF39A552);
-  static const Color backgroundColor = Color(0xFFDFECDB);
+  static const Color backgroundColor = Color(0xFF121312);
   static const Color backgroundColorDark = Color(0xFF060E1E);
   static const Color greyColor = Color(0xFFC8C9CB);
   static const Color redColor = Color(0xFFaf000f);
   static const Color anotherBlack = Color(0xFF42505C);
   static const Color selectedColor = Color(0xFFFFBB3B);
-  static const Color searchBox = Color(0xFF514F4F);
+  static const Color searchBox = Color(0xFF282A28);
 
   static ThemeData lightTheme = ThemeData(
     textTheme: TextTheme(
-      bodyLarge: GoogleFonts.poppins(
+      bodyLarge: GoogleFonts.inter(
           fontSize: 24, fontWeight: FontWeight.w700, color: anotherBlack),
-      bodyMedium: GoogleFonts.exo(
+      bodyMedium: GoogleFonts.inter(
           fontSize: 14, fontWeight: FontWeight.w400, color: anotherBlack),
-      bodySmall: GoogleFonts.poppins(
+      bodySmall: GoogleFonts.inter(
           fontSize: 12, fontWeight: FontWeight.w400, color: anotherBlack),
-      displayLarge: GoogleFonts.poppins(
+      displayLarge: GoogleFonts.inter(
           fontSize: 14, fontWeight: FontWeight.w500, color: anotherBlack),
-      displayMedium: GoogleFonts.poppins(
+      displayMedium: GoogleFonts.inter(
           fontSize: 13, fontWeight: FontWeight.w300, color: anotherBlack),
-      displaySmall: GoogleFonts.poppins(
+      displaySmall: GoogleFonts.inter(
           fontSize: 10, fontWeight: FontWeight.w400, color: anotherBlack),
-      headlineLarge: GoogleFonts.poppins(
+      headlineLarge: GoogleFonts.inter(
           fontSize: 24, fontWeight: FontWeight.w700, color: whiteColor),
     ),
     brightness: Brightness.light,
@@ -40,7 +40,7 @@ class MyThemeData {
       iconTheme: IconThemeData(color: whiteColor, size: 32),
       backgroundColor: Colors.transparent,
       centerTitle: true,
-      titleTextStyle: GoogleFonts.exo(
+      titleTextStyle: GoogleFonts.inter(
           fontSize: 22, fontWeight: FontWeight.w400, color: whiteColor),
       // shape: RoundedRectangleBorder(
       //   borderRadius: BorderRadius.only(
