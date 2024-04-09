@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/screens/tabs/search_sub_items/search_list_items.dart';
-import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/networks/remote/api_manager.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
-import 'package:movies_app/widgets/containers/bookmark_container.dart';
 
 import '../../models/SearchModel.dart';
-import 'home_sub_items/details_page.dart';
 
 class SearchTab extends StatefulWidget {
   SearchTab({Key? key}) : super(key: key);

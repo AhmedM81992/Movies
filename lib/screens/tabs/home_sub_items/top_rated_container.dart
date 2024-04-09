@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/screens/tabs/home_sub_items/details_page.dart';
 import 'package:movies_app/shared/components/constants.dart';
+import 'package:movies_app/shared/networks/local/fetch_api.dart';
 import 'package:movies_app/shared/networks/remote/api_manager.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
 import 'package:movies_app/widgets/containers/bookmark_container.dart';
@@ -34,7 +35,7 @@ class _TopRatedContainerState extends State<TopRatedContainer> {
             ),
           ),
           FutureBuilder(
-            future: ApiManager.getTopRated(),
+            future: FetchAPI.getToprated(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/providers/movie_detail_provider.dart';
 import 'package:movies_app/providers/my_provider.dart';
 import 'package:movies_app/screens/home_screen.dart';
 import 'package:movies_app/screens/tabs/home_sub_items/details_page.dart';
@@ -7,15 +8,22 @@ import 'package:movies_app/screens/tabs/home_sub_items/sub_items/detailed_contai
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';
+import 'package:movies_app/shared/networks/local/fetch_api.dart';
+import 'package:movies_app/shared/networks/local/popular_local_database.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Initialize LocalDatabase
+  await PopularLocalDatabase.initDatabase();
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => MyProvider()),
+        ChangeNotifierProvider(create: (context) => MovieDetailsProvider()),
       ],
       child: MyApp(),
     ),
@@ -23,9 +31,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -30,7 +30,7 @@ class ApiManager {
     }
   }
 
-  static Future<UpComingModel?> getUpComing() async {
+  static Future<UpcomingModel?> getUpComing() async {
     try {
       Uri url = Uri.https(Constants.BASE_URL, EndPoints.upComing,
           {"apiKey": Constants.API_KEY});
@@ -38,7 +38,7 @@ class ApiManager {
           .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
       http.get(url);
       Map<String, dynamic> json = jsonDecode(response.body);
-      return UpComingModel.fromJson(json);
+      return UpcomingModel.fromJson(json);
     } catch (e) {
       print(e.toString());
     }

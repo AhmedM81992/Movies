@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:movies_app/screens/tabs/home_sub_items/details_page.dart';
 import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/networks/remote/api_manager.dart';
 import 'package:movies_app/widgets/containers/bookmark_container.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:movies_app/shared/networks/local/fetch_api.dart'; // Import LocalDatabase
 
 class PopularContainer extends StatefulWidget {
-  const PopularContainer({super.key});
+  const PopularContainer({Key? key}) : super(key: key);
 
   @override
   State<PopularContainer> createState() => _PopularContainerState();
@@ -20,7 +22,7 @@ class _PopularContainerState extends State<PopularContainer> {
       height: MediaQuery.of(context).size.height * 0.3327,
       width: MediaQuery.of(context).size.width,
       child: FutureBuilder(
-        future: ApiManager.getPopular(),
+        future: FetchAPI.getPopular(), // Use FetchAPI to fetch data
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -50,16 +52,25 @@ class _PopularContainerState extends State<PopularContainer> {
                               Icon(Icons.error),
                         ),
                         Center(
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, DetailsPage.routeName,
-                                  arguments: moviesList[index].id);
+                          child: GestureDetector(
+                            onTap: () async {
+                              await FetchAPI.getdetails(
+                                  moviesList[index].id.toString());
                             },
-                            icon: Icon(
-                              CupertinoIcons.play_circle_fill,
-                              color: Colors.white,
-                              size: 80,
+                            child: IconButton(
+                              onPressed: () {
+                                String movieId =
+                                    moviesList[index].id.toString();
+
+                                Navigator.pushNamed(
+                                    context, DetailsPage.routeName,
+                                    arguments: movieId);
+                              },
+                              icon: Icon(
+                                CupertinoIcons.play_circle_fill,
+                                color: Colors.white,
+                                size: 80,
+                              ),
                             ),
                           ),
                         ),
@@ -70,26 +81,34 @@ class _PopularContainerState extends State<PopularContainer> {
                             height: 199,
                             child: Stack(
                               children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, DetailsPage.routeName,
-                                        arguments: moviesList[index].id);
+                                GestureDetector(
+                                  onTap: () async {
+                                    await FetchAPI.getdetails(
+                                        moviesList[index].id.toString());
                                   },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: CachedNetworkImage(
-                                      imageUrl: Constants.IMAGE_BASE_URL +
-                                          (moviesList[index].posterPath ?? ""),
-                                      fit: BoxFit.cover,
-                                      progressIndicatorBuilder: (context, url,
-                                              downloadProgress) =>
-                                          Center(
-                                              child: CircularProgressIndicator(
-                                                  value: downloadProgress
-                                                      .progress)),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, DetailsPage.routeName,
+                                          arguments: moviesList[index].id);
+                                    },
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: CachedNetworkImage(
+                                        imageUrl: Constants.IMAGE_BASE_URL +
+                                            (moviesList[index].posterPath ??
+                                                ""),
+                                        fit: BoxFit.cover,
+                                        progressIndicatorBuilder: (context, url,
+                                                downloadProgress) =>
+                                            Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        value: downloadProgress
+                                                            .progress)),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
                                     ),
                                   ),
                                 ),
