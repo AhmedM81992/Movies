@@ -22,8 +22,8 @@ class FireBaseFunctions {
     doc.set(results);
   }
 
-  static Future<QuerySnapshot<Results>> getFavorites() {
-    return getFavoritesCollection().get();
+  static Stream<QuerySnapshot<Results>> getFavorites() {
+    return getFavoritesCollection().snapshots();
   }
 
   static void deleteFavorites(String id) {
