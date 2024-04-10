@@ -1,5 +1,8 @@
+import 'package:movies_app/models/UpComingModel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
+import 'fetch_api.dart';
 
 class UpComingLocalDatabase {
   static late Database _database;
@@ -40,18 +43,27 @@ class UpComingLocalDatabase {
     );
   }
 
-  static Future<String?> getData() async {
+  static Future getData() async {
     final Database db = await getDatabase();
 
     List<Map<String, dynamic>> maps = await db.query('upcoming_api_data');
     if (maps.isNotEmpty) {
       Map<String, dynamic> latestData = maps.first;
       int timestamp = latestData['timestamp'];
-
+      // Calculate the time difference in milliseconds
+      int timeDifference = DateTime.now().millisecondsSinceEpoch - timestamp;
+      // If the time difference is less than or equal to 24 hours, data is considered up to date
       if (DateTime.now().millisecondsSinceEpoch - timestamp <=
           24 * 60 * 60 * 1000) {
         print("Data is up to date for UpComingLocalDatabase");
         return latestData['data'];
+      } else {
+        // Data is expired, delete it from the database
+        print("Deleting Data and replacing it");
+        await deleteData();
+        // Fetch new data from the API after deleting the old data
+        var newData = await deleteAndFetchData();
+        return newData; // Return the fetched data // Await the result of deleteAndFetchData
       }
     }
     print("Data Expired or Null for UpComingLocalDatabase!");
@@ -61,5 +73,20 @@ class UpComingLocalDatabase {
   static Future<void> deleteData() async {
     final Database db = await getDatabase();
     await db.delete('upcoming_api_data');
+  }
+
+  static Future<UpcomingModel?> deleteAndFetchData() async {
+    try {
+      await deleteData();
+
+      // Fetch new data from the API
+      UpcomingModel? newData = await FetchAPI.getUpcoming();
+
+      // Return the fetched data
+      return newData;
+    } catch (e) {
+      print("Error while deleting and fetching data: $e");
+      throw e; // Rethrow the error for handling elsewhere if needed
+    }
   }
 }
