@@ -7,6 +7,9 @@ import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/networks/remote/api_manager.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
 
+import '../../../models/ResultsModel.dart';
+import '../../../widgets/containers/bookmark_container.dart';
+
 class DetailsPage extends StatefulWidget {
   static const String routeName = "Details";
   const DetailsPage({super.key});
@@ -67,6 +70,7 @@ class _DetailsPageState extends State<DetailsPage> {
             return Center(child: Text("Something Went Wrong!"));
           }
           var movieDetail = snapshot.data;
+          Results results = Results.fromDetailsModel(movieDetail!);
           print("$movieId");
           return Padding(
             padding: const EdgeInsets.all(0.1),
@@ -157,9 +161,9 @@ class _DetailsPageState extends State<DetailsPage> {
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
                               ),
-                              // MyBookmarkWidget(
-                              //   moviesList: movieDetail,
-                              // )
+                              MyBookmarkWidget(
+                                moviesList: results,
+                              )
                             ],
                           ),
                         ),

@@ -1,3 +1,5 @@
+import 'DetailsModel.dart';
+
 class Results {
   Results({
     this.fireBaseId,
@@ -17,13 +19,30 @@ class Results {
     this.voteCount,
   });
 
+  Results.fromDetailsModel(DetailsModel detailsModel) {
+    // Convert DetailsModel fields to Results fields
+    fireBaseId = ''; // Assuming fireBaseId is not part of DetailsModel
+    adult = detailsModel.adult;
+    backdropPath = detailsModel.backdropPath;
+    genreIds = []; // Assuming genreIds is not part of DetailsModel
+    id = detailsModel.id;
+    originalLanguage = detailsModel.originalLanguage;
+    originalTitle = detailsModel.originalTitle;
+    overview = detailsModel.overview;
+    popularity = detailsModel.popularity;
+    posterPath = detailsModel.posterPath;
+    releaseDate = detailsModel.releaseDate;
+    title = detailsModel.title;
+    video = detailsModel.video;
+    voteAverage = detailsModel.voteAverage;
+    voteCount = detailsModel.voteCount;
+  }
+
   Results.fromJson(dynamic json) {
     fireBaseId = json['fireBaseId'];
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
-    genreIds = json['genre_ids'] != null
-        ? json['genre_ids'].cast<int>()
-        : [];
+    genreIds = json['genre_ids'] != null ? json['genre_ids'].cast<int>() : [];
     id = json['id'];
     originalLanguage = json['original_language'];
     originalTitle = json['original_title'];

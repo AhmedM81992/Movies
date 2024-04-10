@@ -15,8 +15,7 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Initialize LocalDatabase
   await PopularLocalDatabase.initDatabase();
@@ -25,10 +24,8 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-            create: (context) => MyProvider()),
-        ChangeNotifierProvider(
-            create: (context) => MovieDetailsProvider()),
+        ChangeNotifierProvider(create: (context) => MyProvider()),
+        ChangeNotifierProvider(create: (context) => MovieDetailsProvider()),
       ],
       child: MyApp(),
     ),
@@ -48,9 +45,8 @@ class MyApp extends StatelessWidget {
         DetailsPage.routeName: (context) => DetailsPage(),
         DetailsVideoPlayer.routeName: (context) {
           // Extract the movieId argument from the route settings
-          final String? movieId = ModalRoute.of(context)
-              ?.settings
-              .arguments as String?;
+          final String? movieId =
+              ModalRoute.of(context)?.settings.arguments as String?;
           // Return the DetailsVideoPlayer widget with the provided movieId
           return DetailsVideoPlayer(movieId: movieId!);
         },
