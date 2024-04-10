@@ -2,21 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/firebase/firebase_functions.dart';
 import 'package:movies_app/models/ResultsModel.dart';
-import 'package:movies_app/screens/tabs/search_sub_items/search_list_items.dart';
+import 'package:movies_app/screens/tabs/watch_list_sub_items/watch_list_items.dart';
 
-class WatchListTab extends StatefulWidget {
+class WatchListTab extends StatelessWidget {
   WatchListTab({super.key});
-
-  @override
-  initState() {
-    print("initState Called");
-  }
-
-  @override
-  State<WatchListTab> createState() => _WatchListTabState();
-}
-
-class _WatchListTabState extends State<WatchListTab> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -35,8 +24,8 @@ class _WatchListTabState extends State<WatchListTab> {
             ),
           ),
           Expanded(
-            child: FutureBuilder<QuerySnapshot<Results>>(
-              future: FireBaseFunctions.getFavorites(),
+            child: StreamBuilder<QuerySnapshot<Results>>(
+              stream: FireBaseFunctions.getFavorites(),
               builder: (BuildContext context, snapshot) {
                 if (snapshot.connectionState ==
                     ConnectionState.waiting) {
@@ -49,8 +38,8 @@ class _WatchListTabState extends State<WatchListTab> {
                 return ListView.builder(
                   itemCount: favorites.length,
                   itemBuilder: (context, index) {
-                    return SearchListItems(
-                        result: favorites![index]);
+                    return WatchListItems(
+                        result: favorites[index]);
                   },
                 );
               },

@@ -51,8 +51,8 @@ class _MyBookmarkWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuerySnapshot<Results>>(
-      future: FireBaseFunctions.getFavorites(),
+    return StreamBuilder<QuerySnapshot<Results>>(
+      stream: FireBaseFunctions.getFavorites(),
       builder: (BuildContext context,
           AsyncSnapshot<QuerySnapshot<Results>> snapshot) {
         if (snapshot.connectionState ==
