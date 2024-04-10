@@ -77,11 +77,8 @@ class ApiManager {
             "Authorization": AppStrings.headerApiKey!
           });
       Map<String, dynamic> json = jsonDecode(response.body);
-      print(json.toString());
-
       return DetailsModel.fromJson(json);
     } catch (e) {
-      print('error');
       print(e.toString());
     }
   }

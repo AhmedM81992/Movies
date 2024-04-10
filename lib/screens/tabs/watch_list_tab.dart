@@ -4,11 +4,19 @@ import 'package:movies_app/firebase/firebase_functions.dart';
 import 'package:movies_app/models/ResultsModel.dart';
 import 'package:movies_app/screens/tabs/search_sub_items/search_list_items.dart';
 
-class WatchListTab extends StatelessWidget {
+class WatchListTab extends StatefulWidget {
   WatchListTab({super.key});
 
-  List<Results> watchListIds = [];
+  @override
+  initState() {
+    print("initState Called");
+  }
 
+  @override
+  State<WatchListTab> createState() => _WatchListTabState();
+}
+
+class _WatchListTabState extends State<WatchListTab> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
