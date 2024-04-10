@@ -1,11 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/networks/local/fetch_api.dart';
-import 'package:movies_app/shared/networks/local/upcoming_local_database.dart';
-import 'package:movies_app/shared/networks/remote/api_manager.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
 import 'package:movies_app/widgets/containers/bookmark_container.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import 'details_page.dart';
 
@@ -13,10 +11,12 @@ class UpComingContainer extends StatefulWidget {
   const UpComingContainer({Key? key}) : super(key: key);
 
   @override
-  State<UpComingContainer> createState() => _UpComingContainerState();
+  State<UpComingContainer> createState() =>
+      _UpComingContainerState();
 }
 
-class _UpComingContainerState extends State<UpComingContainer> {
+class _UpComingContainerState
+    extends State<UpComingContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,15 +41,20 @@ class _UpComingContainerState extends State<UpComingContainer> {
             child: FutureBuilder(
               future: FetchAPI.getUpcoming(),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return Center(
+                      child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
-                  return Center(child: Text("Something Went Wrong!"));
+                  return Center(
+                      child: Text("Something Went Wrong!"));
                 }
-                var moviesList = snapshot.data?.results ?? [];
+                var moviesList =
+                    snapshot.data?.results ?? [];
                 return ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return Padding(
@@ -62,28 +67,41 @@ class _UpComingContainerState extends State<UpComingContainer> {
                                 Navigator.pushNamed(
                                   context,
                                   DetailsPage.routeName,
-                                  arguments: moviesList[index].id,
+                                  arguments:
+                                      moviesList[index].id,
                                 );
                               },
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius:
+                                    BorderRadius.circular(
+                                        10),
                                 child: CachedNetworkImage(
-                                  imageUrl: Constants.IMAGE_BASE_URL +
-                                      (moviesList[index].posterPath ?? ""),
+                                  imageUrl: Constants
+                                          .IMAGE_BASE_URL +
+                                      (moviesList[index]
+                                              .posterPath ??
+                                          ""),
                                   fit: BoxFit.cover,
                                   progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
+                                      (context, url,
+                                              downloadProgress) =>
                                           Center(
-                                    child: CircularProgressIndicator(
-                                      value: downloadProgress.progress,
+                                    child:
+                                        CircularProgressIndicator(
+                                      value:
+                                          downloadProgress
+                                              .progress,
                                     ),
                                   ),
-                                  errorWidget: (context, url, error) =>
+                                  errorWidget: (context,
+                                          url, error) =>
                                       Icon(Icons.error),
                                 ),
                               ),
                             ),
-                            MyBookmarkWidget(),
+                            MyBookmarkWidget(
+                                moviesList:
+                                    moviesList[index]),
                           ],
                         ),
                       ),

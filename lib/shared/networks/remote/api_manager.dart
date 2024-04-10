@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:movies_app/models/DetailsModel.dart';
 import 'package:movies_app/models/PopularModel.dart';
@@ -15,14 +15,16 @@ import 'package:movies_app/shared/styles/app_strings.dart';
 class ApiManager {
   static Future<PopularModel?> getPopular() async {
     try {
-      Uri url = Uri.https(
-          Constants.BASE_URL, EndPoints.popular, {"apiKey": Constants.API_KEY});
+      Uri url = Uri.https(Constants.BASE_URL,
+          EndPoints.popular, {"apiKey": Constants.API_KEY});
 
-      http.Response response = await http
-          .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
+      http.Response response = await http.get(url,
+          headers: {
+            "Authorization": AppStrings.headerApiKey!
+          });
 
-      Map<String, dynamic> json =
-          jsonDecode(response.body); //return json type to map.
+      Map<String, dynamic> json = jsonDecode(
+          response.body); //return json type to map.
 
       return PopularModel.fromJson(json);
     } catch (e) {
@@ -32,10 +34,14 @@ class ApiManager {
 
   static Future<UpcomingModel?> getUpComing() async {
     try {
-      Uri url = Uri.https(Constants.BASE_URL, EndPoints.upComing,
+      Uri url = Uri.https(
+          Constants.BASE_URL,
+          EndPoints.upComing,
           {"apiKey": Constants.API_KEY});
-      http.Response response = await http
-          .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
+      http.Response response = await http.get(url,
+          headers: {
+            "Authorization": AppStrings.headerApiKey!
+          });
       http.get(url);
       Map<String, dynamic> json = jsonDecode(response.body);
       return UpcomingModel.fromJson(json);
@@ -46,10 +52,14 @@ class ApiManager {
 
   static Future<TopRatedModel?> getTopRated() async {
     try {
-      Uri url = Uri.https(Constants.BASE_URL, EndPoints.topRated,
+      Uri url = Uri.https(
+          Constants.BASE_URL,
+          EndPoints.topRated,
           {"apiKey": Constants.API_KEY});
-      http.Response response = await http
-          .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
+      http.Response response = await http.get(url,
+          headers: {
+            "Authorization": AppStrings.headerApiKey!
+          });
       http.get(url);
       Map<String, dynamic> json = jsonDecode(response.body);
       return TopRatedModel.fromJson(json);
@@ -60,22 +70,31 @@ class ApiManager {
 
   static Future<DetailsModel?> getDetails(String id) async {
     try {
-      Uri url = Uri.https(Constants.BASE_URL, EndPoints.details + id);
-      http.Response response = await http
-          .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
+      Uri url = Uri.https(
+          Constants.BASE_URL, EndPoints.details + id);
+      http.Response response = await http.get(url,
+          headers: {
+            "Authorization": AppStrings.headerApiKey!
+          });
       Map<String, dynamic> json = jsonDecode(response.body);
+      print(json.toString());
+
       return DetailsModel.fromJson(json);
     } catch (e) {
+      print('error');
       print(e.toString());
     }
   }
 
-  static Future<SimilarToModel?> getSimilar(String id) async {
+  static Future<SimilarToModel?> getSimilar(
+      String id) async {
     try {
-      Uri url = Uri.https(
-          Constants.BASE_URL, EndPoints.details + id + EndPoints.similar);
-      http.Response response = await http
-          .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
+      Uri url = Uri.https(Constants.BASE_URL,
+          EndPoints.details + id + EndPoints.similar);
+      http.Response response = await http.get(url,
+          headers: {
+            "Authorization": AppStrings.headerApiKey!
+          });
       Map<String, dynamic> json = jsonDecode(response.body);
       return SimilarToModel.fromJson(json);
     } catch (e) {
@@ -83,13 +102,16 @@ class ApiManager {
     }
   }
 
-  static Future<SearchModel?> getSearch(String search) async {
+  static Future<SearchModel?> getSearch(
+      String search) async {
     try {
-      Uri url =
-          Uri.https(Constants.BASE_URL, EndPoints.search, {"query": search});
+      Uri url = Uri.https(Constants.BASE_URL,
+          EndPoints.search, {"query": search});
 
-      http.Response response = await http
-          .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
+      http.Response response = await http.get(url,
+          headers: {
+            "Authorization": AppStrings.headerApiKey!
+          });
       Map<String, dynamic> json = jsonDecode(response.body);
       //print(url.toString());
       return SearchModel.fromJson(json);
@@ -100,10 +122,12 @@ class ApiManager {
 
   static Future<TrailerModel?> getTrailer(String id) async {
     try {
-      Uri url = Uri.https(
-          Constants.BASE_URL, EndPoints.details + id + EndPoints.video);
-      http.Response response = await http
-          .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
+      Uri url = Uri.https(Constants.BASE_URL,
+          EndPoints.details + id + EndPoints.video);
+      http.Response response = await http.get(url,
+          headers: {
+            "Authorization": AppStrings.headerApiKey!
+          });
       Map<String, dynamic> json = jsonDecode(response.body);
       print(url.toString());
       return TrailerModel.fromJson(json);
@@ -113,7 +137,9 @@ class ApiManager {
   }
 
   getMoviesList() {
-    Uri url = Uri.https(Constants.BASE_URL, "/3/genre/movie/list",
+    Uri url = Uri.https(
+        Constants.BASE_URL,
+        "/3/genre/movie/list",
         {"apiKey": Constants.API_KEY});
     http.get(url);
   }

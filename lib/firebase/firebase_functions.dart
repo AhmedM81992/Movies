@@ -1,21 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:movies_app/models/favlist_model.dart';
+import 'package:movies_app/models/ResultsModel.dart';
 
 class FireBaseFunctions {
-  static CollectionReference<FavListModel> getTaskCollection() {
+  static CollectionReference<Results>
+      getFavoritesCollection() {
     return FirebaseFirestore.instance
-        .collection("FavList")
-        .withConverter<FavListModel>(fromFirestore: (snapshot, options) {
-      return FavListModel.fromJson(snapshot.data() ?? {});
-    }, toFirestore: (favlist, _) {
-      return favlist.toJson();
+        .collection('Fav')
+        .withConverter<Results>(
+            fromFirestore: (snapshot, _) {
+      return Results.fromJson(snapshot.data() ?? {});
+    }, toFirestore: (result, _) {
+      return result.toJson();
     });
   }
 
-  static Future<void> addFav(FavListModel model) {
-    var collection = getTaskCollection();
-    var docRef = collection.doc();
-    model.id = docRef.id;
-    return docRef.set(model);
+  static void addMovie(Results results) {
+    var collection = getFavoritesCollection();
+    //to generate auto id
+    var doc = collection.doc();
+    results.fireBaseId = doc.id;
+    doc.set(results);
+  }
+
+  static Future<QuerySnapshot<Results>> getFavorites() {
+    return getFavoritesCollection().get();
+  }
+
+  static void deleteFavorites(String id) {
+    getFavoritesCollection().doc(id).delete();
   }
 }

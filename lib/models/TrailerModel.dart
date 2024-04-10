@@ -9,25 +9,26 @@ class TrailerModel {
     if (json['results'] != null) {
       results = [];
       json['results'].forEach((v) {
-        results?.add(Results.fromJson(v));
+        results?.add(TrailerResults.fromJson(v));
       });
     }
   }
   int? id;
-  List<Results>? results;
+  List<TrailerResults>? results;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     if (results != null) {
-      map['results'] = results?.map((v) => v.toJson()).toList();
+      map['results'] =
+          results?.map((v) => v.toJson()).toList();
     }
     return map;
   }
 }
 
-class Results {
-  Results({
+class TrailerResults {
+  TrailerResults({
     this.iso6391,
     this.iso31661,
     this.name,
@@ -40,7 +41,7 @@ class Results {
     this.id,
   });
 
-  Results.fromJson(dynamic json) {
+  TrailerResults.fromJson(dynamic json) {
     iso6391 = json['iso_639_1'];
     iso31661 = json['iso_3166_1'];
     name = json['name'];

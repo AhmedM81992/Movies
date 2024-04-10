@@ -1,14 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/firebase/firebase_functions.dart';
+
+import '../../models/ResultsModel.dart';
 
 class BookmarkClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
     path.lineTo(0, size.height);
-    path.lineTo(
-        size.width / 2, size.height * 0.7); // The "bookmark" indentation
+    path.lineTo(size.width / 2,
+        size.height * 0.7); // The "bookmark" indentation
     path.lineTo(size.width, size.height);
-    path.quadraticBezierTo(size.width * 1.25, 0, size.width - 10, 0);
+    path.quadraticBezierTo(
+        size.width * 1.25, 0, size.width - 10, 0);
     path.lineTo(10, 0); // Start of top left curve
     path.quadraticBezierTo(0, 0, 0, 10);
     path.close();
@@ -16,19 +21,78 @@ class BookmarkClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+  bool shouldReclip(CustomClipper<Path> oldClipper) =>
+      false;
 }
 
 class MyBookmarkWidget extends StatefulWidget {
+  MyBookmarkWidget({required this.moviesList});
+
+  Results moviesList;
+
   @override
-  State<MyBookmarkWidget> createState() => _MyBookmarkWidgetState();
+  State<MyBookmarkWidget> createState() =>
+      _MyBookmarkWidgetState();
 }
 
-class _MyBookmarkWidgetState extends State<MyBookmarkWidget> {
+class _MyBookmarkWidgetState
+    extends State<MyBookmarkWidget> {
   bool isClicked = false;
+
+  List<Results> favList = [];
+
+  isFavorite() {
+    favList.forEach((element) {
+      if (element.id == widget.moviesList.id) {
+        isClicked = true;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<QuerySnapshot<Results>>(
+      future: FireBaseFunctions.getFavorites(),
+      builder: (BuildContext context,
+          AsyncSnapshot<QuerySnapshot<Results>> snapshot) {
+        if (snapshot.connectionState ==
+            ConnectionState.waiting) {
+          return bookMark();
+        }
+        favList = snapshot.data!.docs
+            .map((e) => e.data())
+            .toList();
+        isFavorite();
+
+        return bookMark();
+      },
+    );
+  }
+
+  void updateFav() {
+    if (favList.isEmpty || !isClicked) {
+      add();
+    } else {
+      favList.forEach((element) {
+        if (element.id == widget.moviesList.id) {
+          delete(element.fireBaseId ?? '');
+        }
+      });
+    }
+    setState(() {});
+  }
+
+  add() {
+    FireBaseFunctions.addMovie(widget.moviesList);
+    isClicked = true;
+  }
+
+  delete(String fireBaseId) {
+    FireBaseFunctions.deleteFavorites(fireBaseId);
+    isClicked = false;
+  }
+
+  Widget bookMark() {
     return ClipPath(
       clipper: BookmarkClipper(),
       child: Container(
@@ -47,9 +111,8 @@ class _MyBookmarkWidgetState extends State<MyBookmarkWidget> {
               size: 15,
             ),
             onPressed: () {
-              setState(() {
-                isClicked = !isClicked;
-              });
+              print(widget.moviesList.title);
+              updateFav();
             },
           ),
         ),

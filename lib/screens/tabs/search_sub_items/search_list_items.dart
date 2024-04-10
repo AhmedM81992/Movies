@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_app/models/SearchModel.dart';
+import 'package:movies_app/models/ResultsModel.dart';
 import 'package:movies_app/screens/tabs/home_sub_items/details_page.dart';
 import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
@@ -21,34 +21,47 @@ class SearchListItems extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, DetailsPage.routeName,
+                  Navigator.pushNamed(
+                      context, DetailsPage.routeName,
                       arguments: result.id);
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.485,
-                    height: MediaQuery.of(context).size.height * 0.118,
+                    width:
+                        MediaQuery.of(context).size.width *
+                            0.485,
+                    height:
+                        MediaQuery.of(context).size.height *
+                            0.118,
                     child: CachedNetworkImage(
                       imageUrl: Constants.IMAGE_BASE_URL +
                           (result.backdropPath ?? ""),
                       fit: BoxFit.cover,
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) => Center(
-                              child: CircularProgressIndicator(
-                                  value: downloadProgress.progress)),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      progressIndicatorBuilder: (context,
+                              url, downloadProgress) =>
+                          Center(
+                              child:
+                                  CircularProgressIndicator(
+                                      value:
+                                          downloadProgress
+                                              .progress)),
+                      errorWidget: (context, url, error) =>
+                          Icon(Icons.error),
                     ),
                   ),
                 ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.476,
-                height: MediaQuery.of(context).size.height * 0.118,
+                width: MediaQuery.of(context).size.width *
+                    0.476,
+                height: MediaQuery.of(context).size.height *
+                    0.118,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment:
+                        CrossAxisAlignment.start,
                     children: [
                       Text(
                         result.title ?? "",
@@ -72,7 +85,9 @@ class SearchListItems extends StatelessWidget {
                             color: Color(0xFFFFBB3B),
                           ),
                           Text(
-                            result.voteAverage?.toStringAsFixed(1) ?? "",
+                            result.voteAverage
+                                    ?.toStringAsFixed(1) ??
+                                "",
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 13,
