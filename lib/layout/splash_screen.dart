@@ -24,7 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
             //SizedBox(height: MediaQuery.of(context).size.height),
             const Spacer(),
             Padding(
-              padding: const EdgeInsets.only(top: 110.0),
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.20),
               child: SizedBox(
                 child: Image.asset('assets/images/splash/movies.png'),
               ),

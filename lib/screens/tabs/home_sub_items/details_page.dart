@@ -174,8 +174,10 @@ class _DetailsPageState extends State<DetailsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Wrap(
-                              spacing: 10, // gap between adjacent chips
-                              runSpacing: 7, // gap between lines
+                              spacing: MediaQuery.of(context).size.width *
+                                  0.01, // gap between adjacent chips
+                              runSpacing: MediaQuery.of(context).size.height *
+                                  0.007, // gap between lines
                               children: movieDetail?.genres?.map((genre) {
                                     return Container(
                                       decoration: BoxDecoration(
@@ -190,7 +192,10 @@ class _DetailsPageState extends State<DetailsPage> {
                                           genre.name ?? '',
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 10,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.0229,
                                               fontWeight: FontWeight.w400),
                                         ),
                                       ),
@@ -206,7 +211,8 @@ class _DetailsPageState extends State<DetailsPage> {
                               movieDetail?.overview ?? "",
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 13,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.035,
                                   fontWeight: FontWeight.w400),
                             ),
                             SizedBox(
@@ -216,7 +222,8 @@ class _DetailsPageState extends State<DetailsPage> {
                               children: [
                                 Icon(
                                   Icons.star,
-                                  size: 25,
+                                  size:
+                                      MediaQuery.of(context).size.width * 0.05,
                                   color: Color(0xFFFFBB3B),
                                 ),
                                 Text(
@@ -225,7 +232,9 @@ class _DetailsPageState extends State<DetailsPage> {
                                       "",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 18,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.045,
                                       color: Colors.white),
                                 ),
                               ],
