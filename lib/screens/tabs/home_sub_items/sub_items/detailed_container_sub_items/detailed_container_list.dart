@@ -10,21 +10,16 @@ class DetailedContainerList extends StatefulWidget {
   const DetailedContainerList({super.key});
 
   @override
-  State<DetailedContainerList> createState() =>
-      _DetailedContainerListState();
+  State<DetailedContainerList> createState() => _DetailedContainerListState();
 }
 
-class _DetailedContainerListState
-    extends State<DetailedContainerList> {
+class _DetailedContainerListState extends State<DetailedContainerList> {
   String? movieId;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final arguments =
-        ModalRoute.of(context)!.settings.arguments;
-    movieId = arguments is int
-        ? arguments.toString()
-        : arguments as String;
+    final arguments = ModalRoute.of(context)!.settings.arguments;
+    movieId = arguments is int ? arguments.toString() : arguments as String;
   }
 
   Widget build(BuildContext context) {
@@ -38,147 +33,111 @@ class _DetailedContainerListState
           Text(
             'More Like This', // Title
             style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-                color: Colors.white),
+                fontSize: 15, fontWeight: FontWeight.w400, color: Colors.white),
           ),
           FutureBuilder(
             future: ApiManager.getSimilar(movieId!),
             builder: (context, snapshot) {
-              if (snapshot.connectionState ==
-                  ConnectionState.waiting) {
-                return Center(
-                    child: CircularProgressIndicator());
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
               }
               if (snapshot.hasError) {
-                return Center(
-                    child: Text("Something Went Wrong!"));
+                return Center(child: Text("Something Went Wrong!"));
               }
               var moviesList = snapshot.data?.results ?? [];
               return Expanded(
                 child: ListView.builder(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8.0, right: 8),
+                      padding: const EdgeInsets.only(left: 8.0, right: 8),
                       child: Container(
                         child: Column(
                           children: [
                             Container(
-                              height: 185,
-                              width: 92,
+                              height: MediaQuery.of(context).size.height * 0.23,
+                              width: MediaQuery.of(context).size.width * 0.25,
                               child: Stack(
                                 children: [
                                   InkWell(
                                     onTap: () {
                                       Navigator.pushNamed(
-                                          context,
-                                          DetailsPage
-                                              .routeName,
-                                          arguments:
-                                              moviesList[
-                                                      index]
-                                                  .id);
+                                          context, DetailsPage.routeName,
+                                          arguments: moviesList[index].id);
                                     },
                                     child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.only(
-                                              topRight: Radius
-                                                  .circular(
-                                                      10),
-                                              topLeft: Radius
-                                                  .circular(
-                                                      10)),
-                                      child:
-                                          CachedNetworkImage(
-                                        imageUrl: Constants
-                                                .IMAGE_BASE_URL +
-                                            (moviesList[index]
-                                                    .posterPath ??
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      child: CachedNetworkImage(
+                                        imageUrl: Constants.IMAGE_BASE_URL +
+                                            (moviesList[index].posterPath ??
                                                 ""),
                                         fit: BoxFit.cover,
-                                        progressIndicatorBuilder: (context,
-                                                url,
+                                        progressIndicatorBuilder: (context, url,
                                                 downloadProgress) =>
                                             Center(
-                                                child: CircularProgressIndicator(
-                                                    value: downloadProgress
-                                                        .progress)),
-                                        errorWidget:
-                                            (context, url,
-                                                    error) =>
-                                                Icon(Icons
-                                                    .error),
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        value: downloadProgress
+                                                            .progress)),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                       ),
                                     ),
                                   ),
                                   MyBookmarkWidget(
-                                      moviesList:
-                                          moviesList[
-                                              index]),
+                                      moviesList: moviesList[index]),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets
-                                            .only(top: 138),
+                                    padding: EdgeInsets.only(
+                                        top:
+                                            MediaQuery.of(context).size.height *
+                                                0.175),
                                     child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.only(
-                                              bottomRight: Radius
-                                                  .circular(
-                                                      10),
-                                              bottomLeft: Radius
-                                                  .circular(
-                                                      10)),
+                                      borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(10),
+                                          bottomLeft: Radius.circular(10)),
                                       child: Container(
-                                        color: Color(
-                                            0xFF343534),
-                                        width: 100,
-                                        height: 300,
+                                        color: Color(0xFF343534),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                1,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.5,
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment
-                                                  .start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Row(
                                               children: [
                                                 Icon(
-                                                  Icons
-                                                      .star,
+                                                  Icons.star,
                                                   size: 15,
-                                                  color: Color(
-                                                      0xFFFFBB3B),
+                                                  color: Color(0xFFFFBB3B),
                                                 ),
                                                 Text(
                                                   moviesList[index]
                                                           .voteAverage
-                                                          ?.toStringAsFixed(1) ??
+                                                          ?.toStringAsFixed(
+                                                              1) ??
                                                       "",
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight
-                                                          .w400,
-                                                      fontSize:
-                                                          10,
-                                                      color:
-                                                          Colors.white),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 10,
+                                                      color: Colors.white),
                                                 ),
                                               ],
                                             ),
                                             Text(
                                               maxLines: 1,
-                                              moviesList[index]
-                                                      .title ??
-                                                  "",
+                                              moviesList[index].title ?? "",
                                               style: TextStyle(
-                                                  fontWeight:
-                                                      FontWeight
-                                                          .w400,
-                                                  fontSize:
-                                                      10,
-                                                  color: Colors
-                                                      .white),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 10,
+                                                  color: Colors.white),
                                             ),
                                             Row(
                                               children: [
@@ -187,12 +146,10 @@ class _DetailedContainerListState
                                                           .releaseDate ??
                                                       "",
                                                   style: TextStyle(
-                                                      fontSize:
-                                                          8,
-                                                      fontWeight: FontWeight
-                                                          .w400,
-                                                      color:
-                                                          Colors.white),
+                                                      fontSize: 8,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: Colors.white),
                                                 )
                                               ],
                                             )

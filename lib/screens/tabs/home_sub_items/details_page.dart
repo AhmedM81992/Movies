@@ -72,9 +72,8 @@ class _DetailsPageState extends State<DetailsPage> {
           var movieDetail = snapshot.data;
           Results results = Results.fromDetailsModel(movieDetail!);
           print("$movieId");
-          return Padding(
-            padding: const EdgeInsets.all(0.1),
-            child: Container(
+          return ListView(children: [
+            Container(
               height: MediaQuery.of(context).size.height,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +84,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       CachedNetworkImage(
                         imageUrl: Constants.IMAGE_BASE_URL +
                             (movieDetail?.backdropPath ?? ""),
-                        height: MediaQuery.of(context).size.height * 0.235,
+                        height: MediaQuery.of(context).size.height * 0.2,
                         width: MediaQuery.of(context).size.width * 1,
                         fit: BoxFit.fitWidth,
                         progressIndicatorBuilder:
@@ -95,7 +94,8 @@ class _DetailsPageState extends State<DetailsPage> {
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 55),
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.04),
                         child: Center(
                           child: IconButton(
                             onPressed: () {
@@ -180,7 +180,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                     return Container(
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(12),
+                                              BorderRadius.circular(8),
                                           border: Border.all(
                                               color: Color(0xFF514F4F),
                                               width: 1)),
@@ -200,7 +200,7 @@ class _DetailsPageState extends State<DetailsPage> {
                             ),
                             SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.009),
+                                    MediaQuery.of(context).size.height * 0.011),
                             Text(
                               maxLines: 6,
                               movieDetail?.overview ?? "",
@@ -211,7 +211,7 @@ class _DetailsPageState extends State<DetailsPage> {
                             ),
                             SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.009),
+                                    MediaQuery.of(context).size.height * 0.011),
                             Row(
                               children: [
                                 Icon(
@@ -235,7 +235,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.011),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.26,
                     width: MediaQuery.of(context).size.width,
@@ -245,7 +245,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 ],
               ),
             ),
-          );
+          ]);
         },
       ),
     );

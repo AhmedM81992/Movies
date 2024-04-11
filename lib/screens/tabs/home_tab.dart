@@ -18,15 +18,13 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50),
-      child: Column(children: [
-        PopularContainer(),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.010),
-        UpComingContainer(),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.010),
-        TopRatedContainer(),
-      ]),
-    );
+    return ListView(children: [
+      PopularContainer(),
+      SizedBox(height: MediaQuery.of(context).size.height * 0.010),
+      UpComingContainer(),
+      SizedBox(height: MediaQuery.of(context).size.height * 0.010),
+      TopRatedContainer(),
+      SizedBox(height: MediaQuery.of(context).size.height * 0.010),
+    ]);
   }
 }

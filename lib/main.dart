@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:movies_app/layout/splash_screen.dart';
 import 'package:movies_app/providers/movie_detail_provider.dart';
 import 'package:movies_app/providers/my_provider.dart';
 import 'package:movies_app/screens/home_screen.dart';
@@ -39,8 +40,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
+        SplashScreen.routeName: (context) => SplashScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         DetailsPage.routeName: (context) => DetailsPage(),
         DetailsVideoPlayer.routeName: (context) {

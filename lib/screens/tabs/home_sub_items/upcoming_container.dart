@@ -11,12 +11,10 @@ class UpComingContainer extends StatefulWidget {
   const UpComingContainer({Key? key}) : super(key: key);
 
   @override
-  State<UpComingContainer> createState() =>
-      _UpComingContainerState();
+  State<UpComingContainer> createState() => _UpComingContainerState();
 }
 
-class _UpComingContainerState
-    extends State<UpComingContainer> {
+class _UpComingContainerState extends State<UpComingContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,11 +25,12 @@ class _UpComingContainerState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.02),
             child: Text(
               'New Releases', // Title
               style: TextStyle(
-                fontSize: 18,
+                fontSize: MediaQuery.of(context).size.width * 0.05,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -41,24 +40,24 @@ class _UpComingContainerState
             child: FutureBuilder(
               future: FetchAPI.getUpcoming(),
               builder: (context, snapshot) {
-                if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
-                  return Center(
-                      child: CircularProgressIndicator());
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
-                  return Center(
-                      child: Text("Something Went Wrong!"));
+                  return Center(child: Text("Something Went Wrong!"));
                 }
-                var moviesList =
-                    snapshot.data?.results ?? [];
+                var moviesList = snapshot.data?.results ?? [];
                 return ListView.builder(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.02),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.01,
+                          right: MediaQuery.of(context).size.width * 0.02,
+                          left: MediaQuery.of(context).size.width * 0.02,
+                          bottom: MediaQuery.of(context).size.width * 0.02),
                       child: Container(
                         child: Stack(
                           children: [
@@ -67,41 +66,28 @@ class _UpComingContainerState
                                 Navigator.pushNamed(
                                   context,
                                   DetailsPage.routeName,
-                                  arguments:
-                                      moviesList[index].id,
+                                  arguments: moviesList[index].id,
                                 );
                               },
                               child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.circular(
-                                        10),
+                                borderRadius: BorderRadius.circular(10),
                                 child: CachedNetworkImage(
-                                  imageUrl: Constants
-                                          .IMAGE_BASE_URL +
-                                      (moviesList[index]
-                                              .posterPath ??
-                                          ""),
+                                  imageUrl: Constants.IMAGE_BASE_URL +
+                                      (moviesList[index].posterPath ?? ""),
                                   fit: BoxFit.cover,
                                   progressIndicatorBuilder:
-                                      (context, url,
-                                              downloadProgress) =>
+                                      (context, url, downloadProgress) =>
                                           Center(
-                                    child:
-                                        CircularProgressIndicator(
-                                      value:
-                                          downloadProgress
-                                              .progress,
+                                    child: CircularProgressIndicator(
+                                      value: downloadProgress.progress,
                                     ),
                                   ),
-                                  errorWidget: (context,
-                                          url, error) =>
+                                  errorWidget: (context, url, error) =>
                                       Icon(Icons.error),
                                 ),
                               ),
                             ),
-                            MyBookmarkWidget(
-                                moviesList:
-                                    moviesList[index]),
+                            MyBookmarkWidget(moviesList: moviesList[index]),
                           ],
                         ),
                       ),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/providers/my_provider.dart';
 import 'package:movies_app/shared/styles/my_theme_data.dart';
@@ -19,10 +20,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: MyThemeData.primaryColor,
       body: Container(
+        //height: MediaQuery.of(context).size.height,
         child: provider.tabs[provider.index],
       ),
       bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.071,
+        height: MediaQuery.of(context).size.height * 0.0748,
         width: double.infinity,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
