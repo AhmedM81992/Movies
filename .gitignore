@@ -10,6 +10,7 @@ Miscellaneous
 .svn/
 migrate_working_dir/
 .env
+/android/.gradle
 /android/app/google-services.json
 /ios/Runner/GoogleService-Info.plist
 security
@@ -45,4 +46,4 @@ Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile
 /android/app/release
-**android/.gradle
+
