@@ -1,43 +1,89 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/models/MovieDiscoverModel.dart';
+import 'package:movies_app/shared/networks/remote/api_manager.dart';
+import 'package:movies_app/shared/styles/my_theme_data.dart';
+
+import 'browse_sub/movies_for _one_category.dart';
 
 class BrowseTab extends StatelessWidget {
   const BrowseTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50.0),
-      child: Container(
-        color: Color(0xFF514F4F), // Set the background color
-        padding: EdgeInsets.all(16), // Add padding for spacing
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'New Releases', // Title
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 16), // Add some vertical spacing
+          const Padding(
+            padding: EdgeInsets.only(left: 8),
+            child: Text(
+              'Category Browse', // Title
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: Colors.white, // Set title text color
               ),
             ),
-            SizedBox(height: 8), // Add some vertical spacing
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Set the number of columns
-                  crossAxisSpacing: 8, // Set spacing between columns
-                  mainAxisSpacing: 8, // Set spacing between rows
-                ),
-                itemCount: 0, // Set the itemCount to 0 for an empty grid
-                itemBuilder: (BuildContext context, int index) {
-                  // This function won't be called since the itemCount is 0
-                  return Container(); // Return an empty container
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 8), // Add some vertical spacing
+          Expanded(
+            child: FutureBuilder(
+                future: ApiManager.getMoviesList(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator(color: MyThemeData.selectedColor,));
+                  }
+                  if (snapshot.hasError) {
+                    return const Center(child: Text("Something Went Wrong!"));
+                  }
+                  var categoryList = snapshot.data!.genres ?? [];
+                  return GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Set the number of columns
+                      crossAxisSpacing: 8, // Set spacing between columns
+                      mainAxisSpacing: 8, // Set spacing between rows
+                    ),
+                    itemCount: categoryList.length,
+                    // Set the itemCount to 0 for an empty grid
+                    itemBuilder: (BuildContext context, int index) {
+                      // This function won't be called since the itemCount is 0
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, MoviesForOneCategory.routeName,
+                                arguments:{"id":categoryList[index].id,"name":categoryList[index].name});
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: MediaQuery.of(context).size.height / 10,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage("assets/images/placeholper_image.jpg",),
+                                    fit: BoxFit.fill,
+                                  colorFilter: ColorFilter.mode(
+                                    MyThemeData.blackColor.withOpacity(0.2),
+                                    BlendMode.srcATop,
+                                  ),
+                                )),
+                            child: Text(
+                              categoryList[index].name ?? "",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white, // Set title text color
+                              ),
+                            ),
+                          ),
+                        ),
+                      ); // Return an empty container
+                    },
+                  );
+                }),
+          ),
+        ],
       ),
     );
   }

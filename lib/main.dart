@@ -12,6 +12,7 @@ import 'package:movies_app/shared/networks/local/popular_local_database.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
+import 'screens/tabs/browse_sub/movies_for _one_category.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         SplashScreen.routeName: (context) => SplashScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         DetailsPage.routeName: (context) => DetailsPage(),
+        MoviesForOneCategory.routeName: (context) => MoviesForOneCategory(),
         DetailsVideoPlayer.routeName: (context) {
           // Extract the movieId argument from the route settings
           final String? movieId =

@@ -51,6 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 provider.changeIndex(value);
               });
             },
+            iconSize: 20,
+            selectedFontSize: 10,
+            unselectedFontSize: 10,
             currentIndex: provider.index,
             selectedItemColor: MyThemeData.selectedColor,
             showSelectedLabels: true,

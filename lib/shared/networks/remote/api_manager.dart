@@ -12,6 +12,9 @@ import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/networks/remote/end_points.dart';
 import 'package:movies_app/shared/styles/app_strings.dart';
 
+import '../../../models/MovieDiscoverModel.dart';
+import '../../../models/MoviesListModel.dart';
+
 class ApiManager {
   static Future<PopularModel?> getPopular() async {
     try {
@@ -83,8 +86,7 @@ class ApiManager {
     }
   }
 
-  static Future<SimilarToModel?> getSimilar(
-      String id) async {
+  static Future<SimilarToModel?> getSimilar(String id) async {
     try {
       Uri url = Uri.https(Constants.BASE_URL,
           EndPoints.details + id + EndPoints.similar);
@@ -99,8 +101,7 @@ class ApiManager {
     }
   }
 
-  static Future<SearchModel?> getSearch(
-      String search) async {
+  static Future<SearchModel?> getSearch(String search) async {
     try {
       Uri url = Uri.https(Constants.BASE_URL,
           EndPoints.search, {"query": search});
@@ -133,11 +134,32 @@ class ApiManager {
     }
   }
 
-  getMoviesList() {
-    Uri url = Uri.https(
-        Constants.BASE_URL,
-        "/3/genre/movie/list",
-        {"apiKey": Constants.API_KEY});
-    http.get(url);
+  static Future<MoviesListModel?>  getMoviesList()async {
+   try {
+      Uri url = Uri.https(Constants.BASE_URL, EndPoints.moviesList,
+          {"apiKey": Constants.API_KEY});
+      http.Response response = await http
+          .get(url, headers: {"Authorization": AppStrings.headerApiKey!});
+      var responseBody = jsonDecode(response.body);
+      print(responseBody);
+      return MoviesListModel.fromJson(responseBody);
+    }catch(e){
+     print(e.toString());
+   }
   }
+  static Future<MovieDiscoverModel?>   getMovieDiscover(String category,{int page=1})async {
+    try {
+      // Uri url = Uri.https(Constants.BASE_URL, EndPoints.movieDiscover,
+      //     {"apiKey": Constants.API_KEY});
+      http.Response response = await http
+          .get(Uri.parse("https://${Constants.BASE_URL}${EndPoints.movieDiscover}?page=$page&with_genres=$category"),
+          headers: {"Authorization": AppStrings.headerApiKey!});
+      var responseBody = jsonDecode(response.body);
+      print(responseBody);
+      return MovieDiscoverModel.fromJson(responseBody);
+    }catch(e){
+      print(e.toString());
+    }
+  }
+
 }
