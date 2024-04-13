@@ -38,7 +38,9 @@ class _DetailsPageState extends State<DetailsPage> {
           future: ApiManager.getDetails(movieId!),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                  child: CircularProgressIndicator(
+                      color: MyThemeData.selectedColor));
             }
             if (snapshot.hasError) {
               return Center(child: Text("Something Went Wrong!"));
@@ -64,7 +66,9 @@ class _DetailsPageState extends State<DetailsPage> {
         future: ApiManager.getDetails(movieId!),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+                    color: MyThemeData.selectedColor));
           }
           if (snapshot.hasError) {
             return Center(child: Text("Something Went Wrong!"));
@@ -90,6 +94,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         progressIndicatorBuilder:
                             (context, url, downloadProgress) => Center(
                                 child: CircularProgressIndicator(
+                                    color: MyThemeData.selectedColor,
                                     value: downloadProgress.progress)),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
@@ -157,6 +162,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                 progressIndicatorBuilder:
                                     (context, url, downloadProgress) => Center(
                                         child: CircularProgressIndicator(
+                                            color: MyThemeData.selectedColor,
                                             value: downloadProgress.progress)),
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),

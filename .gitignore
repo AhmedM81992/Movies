@@ -11,6 +11,7 @@ Miscellaneous
 migrate_working_dir/
 .env
 /android/.gradle
+android/.gradle
 /android/app/google-services.json
 /ios/Runner/GoogleService-Info.plist
 security

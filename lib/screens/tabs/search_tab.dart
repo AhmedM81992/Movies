@@ -34,24 +34,21 @@ class _SearchTabState extends State<SearchTab> {
                 ),
                 child: TextField(
                   controller: searchController,
-                  style: TextStyle(
-                      color: MyThemeData.whiteColor),
+                  cursorColor: MyThemeData.selectedColor,
+                  style: TextStyle(color: MyThemeData.whiteColor),
                   decoration: InputDecoration(
                     hintText: 'Search',
-                    hintStyle:
-                        TextStyle(color: Colors.white38),
-                    prefixIcon: Icon(Icons.search,
-                        color: MyThemeData.whiteColor),
+                    hintStyle: TextStyle(color: Colors.white38),
+                    prefixIcon:
+                        Icon(Icons.search, color: MyThemeData.whiteColor),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide(
                         color: MyThemeData.whiteColor,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide(
                         color: MyThemeData.whiteColor,
                       ),
@@ -74,11 +71,9 @@ class _SearchTabState extends State<SearchTab> {
                   ? searchResults!.isEmpty
                       ? Center(
                           child: Column(
-                            mainAxisAlignment:
-                                MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(
-                                  "assets/images/novideo.png"),
+                              Image.asset("assets/images/novideo.png"),
                             ],
                           ),
                         )
@@ -86,12 +81,12 @@ class _SearchTabState extends State<SearchTab> {
                           itemCount: searchResults!.length,
                           itemBuilder: (context, index) {
                             return SearchListItems(
-                                result:
-                                    searchResults![index]);
+                                result: searchResults![index]);
                           },
                         )
                   : Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                          color: MyThemeData.selectedColor),
                     ),
             ),
           ],
@@ -104,8 +99,7 @@ class _SearchTabState extends State<SearchTab> {
     if (query.isNotEmpty) {
       try {
         // Calls the API to get search results
-        SearchModel? searchModel =
-            await ApiManager.getSearch(query);
+        SearchModel? searchModel = await ApiManager.getSearch(query);
         if (searchModel != null) {
           setState(() {
             searchResults = searchModel.results;

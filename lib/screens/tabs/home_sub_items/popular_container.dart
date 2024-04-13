@@ -6,6 +6,8 @@ import 'package:movies_app/shared/components/constants.dart';
 import 'package:movies_app/shared/networks/local/fetch_api.dart'; // Import LocalDatabase
 import 'package:movies_app/widgets/containers/bookmark_container.dart';
 
+import '../../../shared/styles/my_theme_data.dart';
+
 class PopularContainer extends StatefulWidget {
   const PopularContainer({Key? key}) : super(key: key);
 
@@ -23,7 +25,9 @@ class _PopularContainerState extends State<PopularContainer> {
         future: FetchAPI.getPopular(), // Use FetchAPI to fetch data
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+                    color: MyThemeData.selectedColor));
           }
           if (snapshot.hasError) {
             return Center(child: Text("Something Went Wrong!"));
@@ -49,6 +53,7 @@ class _PopularContainerState extends State<PopularContainer> {
                             progressIndicatorBuilder:
                                 (context, url, downloadProgress) => Center(
                                     child: CircularProgressIndicator(
+                                        color: MyThemeData.selectedColor,
                                         value: downloadProgress.progress)),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
@@ -109,6 +114,8 @@ class _PopularContainerState extends State<PopularContainer> {
                                             Center(
                                                 child:
                                                     CircularProgressIndicator(
+                                                        color: MyThemeData
+                                                            .selectedColor,
                                                         value: downloadProgress
                                                             .progress)),
                                         errorWidget: (context, url, error) =>

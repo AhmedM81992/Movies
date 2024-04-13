@@ -91,9 +91,14 @@ class _DetailsVideoPlayerState extends State<DetailsVideoPlayer> {
                 future: _movieTitleFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Text('Loading...'); // Placeholder while loading
+                    return Center(
+                        child: CircularProgressIndicator(
+                            color: MyThemeData
+                                .selectedColor)); // Placeholder while loading
                   } else if (snapshot.hasError || !snapshot.hasData) {
-                    return Text('Error'); // Placeholder for error state
+                    return Center(
+                        child: Text(
+                            "Something Went Wrong!")); // Placeholder for error state
                   } else {
                     return Text(
                       snapshot.data!,
@@ -108,7 +113,9 @@ class _DetailsVideoPlayerState extends State<DetailsVideoPlayer> {
         future: _trailerUrlFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+                    color: MyThemeData.selectedColor));
           } else if (snapshot.hasError ||
               !snapshot.hasData ||
               snapshot.data == null) {
@@ -127,10 +134,10 @@ class _DetailsVideoPlayerState extends State<DetailsVideoPlayer> {
               YoutubePlayer(
                 controller: _controller,
                 showVideoProgressIndicator: true,
-                progressIndicatorColor: Colors.amber,
+                progressIndicatorColor: MyThemeData.selectedColor,
                 progressColors: ProgressBarColors(
-                  playedColor: Colors.amber,
-                  handleColor: Colors.amberAccent,
+                  playedColor: MyThemeData.selectedColor,
+                  handleColor: MyThemeData.selectedColor,
                 ),
                 onReady: () {
                   print('Player is ready.');
@@ -256,7 +263,8 @@ class _DetailsVideoPlayerState extends State<DetailsVideoPlayer> {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
                                   return Center(
-                                      child: CircularProgressIndicator());
+                                      child: CircularProgressIndicator(
+                                          color: MyThemeData.selectedColor));
                                 }
                                 if (snapshot.hasError) {
                                   return Center(
@@ -294,6 +302,8 @@ class _DetailsVideoPlayerState extends State<DetailsVideoPlayer> {
                                                             downloadProgress) =>
                                                         Center(
                                                             child: CircularProgressIndicator(
+                                                                color: MyThemeData
+                                                                    .selectedColor,
                                                                 value: downloadProgress
                                                                     .progress)),
                                                     errorWidget:

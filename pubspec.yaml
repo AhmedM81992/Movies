@@ -72,6 +72,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/splash/
+    - assets/images/browse/
     - .env
   #   - images/a_dot_ham.jpeg
 

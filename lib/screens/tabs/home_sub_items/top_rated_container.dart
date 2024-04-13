@@ -38,7 +38,9 @@ class _TopRatedContainerState extends State<TopRatedContainer> {
             future: FetchAPI.getToprated(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return Center(
+                    child: CircularProgressIndicator(
+                        color: MyThemeData.selectedColor));
               }
               if (snapshot.hasError) {
                 return Center(child: Text("Something Went Wrong!"));
@@ -84,6 +86,8 @@ class _TopRatedContainerState extends State<TopRatedContainer> {
                                             Center(
                                                 child:
                                                     CircularProgressIndicator(
+                                                        color: MyThemeData
+                                                            .selectedColor,
                                                         value: downloadProgress
                                                             .progress)),
                                         errorWidget: (context, url, error) =>

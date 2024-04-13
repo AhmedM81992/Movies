@@ -32,7 +32,10 @@ class BrowseTab extends StatelessWidget {
                 future: ApiManager.getMoviesList(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator(color: MyThemeData.selectedColor,));
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: MyThemeData.selectedColor,
+                    ));
                   }
                   if (snapshot.hasError) {
                     return const Center(child: Text("Something Went Wrong!"));
@@ -53,16 +56,23 @@ class BrowseTab extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, MoviesForOneCategory.routeName,
-                                arguments:{"id":categoryList[index].id,"name":categoryList[index].name});
+                            Navigator.pushNamed(
+                                context, MoviesForOneCategory.routeName,
+                                arguments: {
+                                  "id": categoryList[index].id,
+                                  "name": categoryList[index].name
+                                });
                           },
                           child: Container(
                             alignment: Alignment.center,
                             height: MediaQuery.of(context).size.height / 10,
                             decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
                                 image: DecorationImage(
-                                    image: AssetImage("assets/images/placeholper_image.jpg",),
-                                    fit: BoxFit.fill,
+                                  image: AssetImage(
+                                    "assets/images/browse/placeholder_image.png",
+                                  ),
+                                  fit: BoxFit.cover,
                                   colorFilter: ColorFilter.mode(
                                     MyThemeData.blackColor.withOpacity(0.2),
                                     BlendMode.srcATop,

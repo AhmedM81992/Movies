@@ -36,6 +36,7 @@ class SearchListItems extends StatelessWidget {
                       progressIndicatorBuilder:
                           (context, url, downloadProgress) => Center(
                               child: CircularProgressIndicator(
+                                  color: MyThemeData.selectedColor,
                                   value: downloadProgress.progress)),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),

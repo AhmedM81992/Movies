@@ -39,7 +39,9 @@ class _DetailedContainerListState extends State<DetailedContainerList> {
             future: ApiManager.getSimilar(movieId!),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return Center(
+                    child: CircularProgressIndicator(
+                        color: MyThemeData.selectedColor));
               }
               if (snapshot.hasError) {
                 return Center(child: Text("Something Went Wrong!"));
@@ -80,6 +82,8 @@ class _DetailedContainerListState extends State<DetailedContainerList> {
                                             Center(
                                                 child:
                                                     CircularProgressIndicator(
+                                                        color: MyThemeData
+                                                            .selectedColor,
                                                         value: downloadProgress
                                                             .progress)),
                                         errorWidget: (context, url, error) =>

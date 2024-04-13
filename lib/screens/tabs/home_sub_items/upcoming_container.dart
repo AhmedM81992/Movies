@@ -41,7 +41,9 @@ class _UpComingContainerState extends State<UpComingContainer> {
               future: FetchAPI.getUpcoming(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                      child: CircularProgressIndicator(
+                          color: MyThemeData.selectedColor));
                 }
                 if (snapshot.hasError) {
                   return Center(child: Text("Something Went Wrong!"));
@@ -79,6 +81,7 @@ class _UpComingContainerState extends State<UpComingContainer> {
                                       (context, url, downloadProgress) =>
                                           Center(
                                     child: CircularProgressIndicator(
+                                      color: MyThemeData.selectedColor,
                                       value: downloadProgress.progress,
                                     ),
                                   ),
